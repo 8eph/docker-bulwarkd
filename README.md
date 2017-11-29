@@ -29,11 +29,11 @@ For Raspberry Pi 2/3:
 
     curl https://raw.githubusercontent.com/straks/straks-node/master/bootstrap-host-armhf.sh |  sh
 
-You will most likely need to run the above twice, if your user is not part of the Docker group or its a new installation of Docker. Log out and then in again and ensure that user is a member of the docker group (run `id`). User will also need `sudo` permissions.
+You will most likely need to run the above twice if your user is not part of the Docker group or it is a new installation of Docker. After running the above the first timei, and it fails citing permission issues, log out and then log back in and then ensure that user is a member of the Docker group (run `id`).  User will also need `sudo` permissions.
 
-Use `-H 'Cache-Control: no-cache'` with the curl command to return non-cached data from the web server.
+Note: use `-H 'Cache-Control: no-cache'` with the curl command to return non-cached data from the web server.
 
-Finally in order to start the node manually run:
+Finally, in order to start the node manually, run:
 
     sudo systemctl start docker-straks-node
     
