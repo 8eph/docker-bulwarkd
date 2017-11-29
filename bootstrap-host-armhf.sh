@@ -18,7 +18,6 @@ STAK_IMAGE=${STAK_IMAGE:-squbs/straks-node:1.14.5-armhf}
 
 #free -m
 
-
 curl -fsSL get.docker.com -o /tmp/get-docker.sh
 sh /tmp/get-docker.sh
 
@@ -43,8 +42,7 @@ docker volume create --name=straks-data
 docker run -v straks-data:/straks --rm $STAK_IMAGE straks_init
 
 # Start straks-node via systemd and docker
-wget https://raw.githubusercontent.com/straks/straks-node/master/init/docker-straks-node-armhf.service
-sudo mv docker-straks-node-armhf.service /etc/systemd/system/docker-straks-node.service
+sudo sh -c 'curl https://raw.githubusercontent.com/straks/straks-node/master/init/docker-straks-node.service > /etc/systemd/system/docker-straks-node.service' 
 sudo systemctl enable docker-straks-node.service
 
 set +ex
