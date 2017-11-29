@@ -68,7 +68,7 @@ General Commands
 1. Open a bash shell within the running container and issue commands to the daemon:
 
         $ docker exec -it straks-node bash
-        $ straksd getinfo
+        $ straks-cli getinfo
 
 2. Copy file (e.g. straks.conf) in and out of the container: 
         
@@ -88,7 +88,7 @@ General Commands
         # This will create a human readable file dump (depending on encryption status etc):
 
         (a) Dump wallet:
-            $ docker exec -it  straks-node straksd dumpwallet backup_wallet.dat
+            $ docker exec -it  straks-node straks-cli dumpwallet backup_wallet.dat
         
         (b) Copy to local dir: 
             $ docker cp straks-node:/straks/backup_wallet.dat .
