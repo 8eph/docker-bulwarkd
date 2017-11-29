@@ -6,17 +6,17 @@ set -ex
 
 STAK_IMAGE=${STAK_IMAGE:-squbs/straks-node}
 
-memtotal=$(grep ^MemTotal /proc/meminfo | awk '{print int($2/1024) }')
+#memtotal=$(grep ^MemTotal /proc/meminfo | awk '{print int($2/1024) }')
 
 # Only do swap hack if needed
-if [ $memtotal -lt 2048 -a $(swapon -s | wc -l) -lt 2 ]; then
-    sudo fallocate -l 2048M /swap || sudo dd if=/dev/zero of=/swap bs=1M count=2048
-    sudo mkswap /swap
-    grep -q "^/swap" /etc/fstab || sudo echo "/swap swap swap defaults 0 0" >> /etc/fstab
-    sudo swapon -a
-fi
+#if [ $memtotal -lt 2048 -a $(swapon -s | wc -l) -lt 2 ]; then
+#    sudo fallocate -l 2048M /swap || sudo dd if=/dev/zero of=/swap bs=1M count=2048
+#    sudo mkswap /swap
+#    grep -q "^/swap" /etc/fstab || sudo echo "/swap swap swap defaults 0 0" >> /etc/fstab
+#    sudo swapon -a
+#fi
 
-free -m
+#free -m
 
 curl -fsSL get.docker.com -o /tmp/get-docker.sh
 sh /tmp/get-docker.sh
