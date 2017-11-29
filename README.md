@@ -33,6 +33,11 @@ You will most likely need to run the above twice, if your user is not part of th
 
 Use `-H 'Cache-Control: no-cache'` with the curl command to return non-cached data from the web server.
 
+Finally in order to start the node manually run:
+
+    sudo systemctl start docker-straks-node
+    
+
 Quick Start
 -----------
 
