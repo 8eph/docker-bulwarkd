@@ -1,0 +1,32 @@
+[Unit]
+Description=STRAKS Daemon Docker Container
+Documentation=https://github.com/straks/straks-node
+After=network.target docker.socket
+Requires=docker.socket
+
+[Service]
+RestartSec=10
+Restart=always
+
+# Modify IP6_PREFIX to match network config
+Environment="NAME=straks-node"
+Environment="DATA_VOL=straks-data"
+Environment="IMG=squbs/straks-node:1.14.5"
+Environment="PORT=7575:7575/tcp"
+Environment="PORTRPC=7574:7574/tcp"
+
+# To override environment variables, use local configuration directory:
+# /etc/systemd/system/docker-straksd.service/local.conf
+# http://www.freedesktop.org/software/systemd/man/systemd.unit.html
+
+# Clean-up bad state if still hanging around
+ExecStartPre=-/usr/bin/docker rm -f $NAME
+
+# Attempt to pull new image for security updates
+ExecStartPre=-/usr/bin/docker pull $IMG
+
+# Main process
+ExecStart=/usr/bin/docker run --rm -v ${DATA_VOL}:/straks --name ${NAME} -p ${PORT} -p ${PORTRPC} ${IMG} straks_oneshot $ARGS
+
+[Install]
+WantedBy=multi-user.target
