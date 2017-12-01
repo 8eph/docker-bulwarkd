@@ -3,7 +3,6 @@
 
 [![Docker Stars](https://img.shields.io/docker/stars/squbs/straks-node.svg)](https://hub.docker.com/r/squbs/straks-node/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/squbs/straks-node.svg)](https://hub.docker.com/r/squbs/straks-node/)
-[![ImageLayers](https://images.microbadger.com/badges/image/squbs/straks-node.svg)](https://microbadger.com/#/images/squbs/straks-node)
 
 Docker image that runs a STRAKS node in a container for easy deployment.
 
