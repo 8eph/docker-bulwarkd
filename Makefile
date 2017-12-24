@@ -1,6 +1,6 @@
 APPNAME=straks-node
 #VERSION=$(shell git describe --tags)
-VERSION=1.14.5.2
+VERSION=1.14.6.0
 NAMESPACE=squbs
 
 build:  

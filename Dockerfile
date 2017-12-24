@@ -5,7 +5,7 @@ ARG USER_ID
 ARG GROUP_ID
 
 ENV HOME /straks
-ENV STRAKS_VER 1.14.5.2
+ENV STRAKS_VER 1.14.6.0
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
