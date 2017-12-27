@@ -4,7 +4,7 @@
 #
 set -ex
 
-STAK_IMAGE=${STAK_IMAGE:-squbs/straks-node}
+STAK_IMAGE=${STAK_IMAGE:-squbs/straks-node:latest}
 
 #memtotal=$(grep ^MemTotal /proc/meminfo | awk '{print int($2/1024) }')
 
