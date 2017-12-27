@@ -8,7 +8,7 @@ pre-start script
   docker rm -f straks-node || true
   
   # Attempt to always update and fail silently if the network isn't ready
-  docker pull squbs/straks-node || true
+  docker pull squbs/straks-node:latest || true
 end script
 script
   exec docker run --rm -v straks-data:/straks --name=straks-node --rm -p 7575:7575 -p 127.0.0.1:7574:7574 squbs/straks-node

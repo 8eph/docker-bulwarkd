@@ -11,7 +11,7 @@ Restart=always
 # Modify IP6_PREFIX to match network config
 Environment="NAME=straks-node"
 Environment="DATA_VOL=straks-data"
-Environment="IMG=squbs/straks-node:1.14.5"
+Environment="IMG=squbs/straks-node:latest"
 Environment="PORT=7575:7575/tcp"
 Environment="PORTRPC=7574:7574/tcp"
 
