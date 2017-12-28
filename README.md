@@ -58,7 +58,15 @@ Quick Start
 
         $ docker logs -f straks-node
 
-4. Install optional init scripts for upstart and systemd located in the `init` directory.
+4. Install optional init scripts for upstart and systemd located in the `init` directory. Alternatively you can run step 1 with the following additional arguments `-dit --restart unless-stopped ` to have the container restart on failure on system restart.
+
+5. If not using upstart and systemd, you can use watchtower to keep your docker node up to date. 
+
+```
+docker run -dit --restart unless-stopped   -d  --name watchtower   -v /var/run/docker.sock:/var/run/docker.sock   v2tec/watchtower straks-node
+```
+
+
 
 
 General Commands
