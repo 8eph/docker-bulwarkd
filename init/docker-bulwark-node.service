@@ -1,6 +1,6 @@
 [Unit]
-Description=STRAKS Daemon Docker Container
-Documentation=https://github.com/straks/straks-node
+Description=BULWARK Daemon Docker Container
+Documentation=https://github.com/bulwark/bulwark-docker
 After=network.target docker.socket
 Requires=docker.socket
 
@@ -9,14 +9,14 @@ RestartSec=10
 Restart=always
 
 # Modify IP6_PREFIX to match network config
-Environment="NAME=straks-node"
-Environment="DATA_VOL=straks-data"
-Environment="IMG=squbs/straks-node:latest-armhf"
-Environment="PORT=7575:7575/tcp"
-Environment="PORTRPC=7574:7574/tcp"
+Environment="NAME=bulwark-docker"
+Environment="DATA_VOL=bulwark-data"
+Environment="IMG=8eph/bulwark-docker:latest"
+Environment="PORT=52544:52544/tcp"
+Environment="PORTRPC=52543:52543/tcp"
 
 # To override environment variables, use local configuration directory:
-# /etc/systemd/system/docker-straksd.service/local.conf
+# /etc/systemd/system/docker-bulwarkd.service/local.conf
 # http://www.freedesktop.org/software/systemd/man/systemd.unit.html
 
 # Clean-up bad state if still hanging around
@@ -26,7 +26,7 @@ ExecStartPre=-/usr/bin/docker rm -f $NAME
 ExecStartPre=-/usr/bin/docker pull $IMG
 
 # Main process
-ExecStart=/usr/bin/docker run --rm -v ${DATA_VOL}:/straks --name ${NAME} -p ${PORT} -p ${PORTRPC} ${IMG} straks_oneshot $ARGS
+ExecStart=/usr/bin/docker run --rm -v ${DATA_VOL}:/bulwark --name ${NAME} -p ${PORT} -p ${PORTRPC} ${IMG} bulwark_oneshot $ARGS
 
 [Install]
 WantedBy=multi-user.target

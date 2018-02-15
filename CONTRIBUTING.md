@@ -1,4 +1,4 @@
-# Contributing to docker-straksd
+# Contributing to docker-bulwarkd
 
 Community contributions are welcome and help move the project along.  Please review this document before sending any pull requests.
 
@@ -15,12 +15,6 @@ New features are welcome provided that the feature has a general audience and is
 Please add new documentation in the `docs` folder for any new features.  Pull requests for missing documentation is welcome as well.  Keep the `README.md` focused on the most popular use case, details belong in the docs directory.
 
 If you have a special feature, you're likely to try but it will likely be rejected if not too many people seem interested.
-
-## Tests
-
-In an effort to not repeat bugs (and break less popular features), unit tests are run on [Travis CI](https://travis-ci.org/squbs/docker-straksd).  The goal of the tests are to be simple and to be placed in the `test` directory where it will be automatically run.
-
-See [test directory](https://github.com/squbs/docker-straksd/tree/master/test) for details.
 
 ## Style
 

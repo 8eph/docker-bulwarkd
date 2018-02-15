@@ -1,56 +1,37 @@
-FROM ubuntu:xenial
-MAINTAINER squbs <squbs@straks.io>
+FROM ubuntu:artful
+MAINTAINER 8eph <8eph@protonmail.com>
 
 ARG USER_ID
 ARG GROUP_ID
 
-ENV HOME /straks
-ENV STRAKS_VER 1.14.7.2
+ENV HOME /bulwark
+ENV BULWARK_VER 1.2.1.0
+ENV UBUNTU_VER 17.10
 
 # add user with specified (or default) user/group ids
 ENV USER_ID ${USER_ID:-1000}
 ENV GROUP_ID ${GROUP_ID:-1000}
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -g ${GROUP_ID} straks \
-	&& useradd -u ${USER_ID} -g straks -s /bin/bash -m -d /straks straks
+RUN groupadd -g ${GROUP_ID} bulwark \
+	&& useradd -u ${USER_ID} -g bulwark -s /bin/bash -m -d /bulwark bulwark
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-RUN apt-get update
-RUN apt-get install -y build-essential
-RUN apt-get install -y libtool autotools-dev autoconf automake
-RUN apt-get install -y libssl-dev
-RUN apt-get install -y libboost-all-dev
-RUN apt-get install -y pkg-config 
-RUN apt-get -y install python-software-properties software-properties-common git
-RUN add-apt-repository -y ppa:bitcoin/bitcoin
 RUN apt-get -y update
-RUN apt-get install -y libdb4.8-dev
-RUN apt-get install -y libdb4.8++-dev
-RUN apt-get install -y libminiupnpc-dev
-RUN apt-get install -y libqt4-dev libprotobuf-dev protobuf-compiler
-RUN apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev
-RUN apt-get install -y libcanberra-gtk-module
-RUN apt-get install -y gtk2-engines-murrine
-RUN apt-get install -y libqrencode-dev
-RUN apt-get install -y libevent-dev
-RUN apt-get install -y libzmq3-dev
-RUN apt-get install -y wget
+RUN apt-get -y upgrade
+RUN apt-get -y autoremove
+RUN apt-get install -y wget nano htop apt-utils
+RUN apt-get install -y build-essential libtool autotools-dev autoconf automake libssl-dev libboost-all-dev software-properties-common curl
+RUN add-apt-repository ppa:bitcoin/bitcoin
+RUN apt-get update
+RUN apt-get -y install libzmq3-dev libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libqt4-dev libprotobuf-dev protobuf-compiler libqrencode-dev pkg-config
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# [1] if you want to compile from source, needs a lot of ram
-#RUN cd ${HOME} && git clone https://github.com/straks/straks.git
-#RUN cd ${HOME}/straks && ./autogen.sh
-#RUN cd ${HOME}/straks && ./configure
-#RUN cd ${HOME}/straks && make
-#RUN cd ${HOME}/straks && cp straksd /usr/bin/straksd && cp straks-cli /usr/bin/straks-cli && cp straks-tx /usr/bin/straks-tx && cp qt/straks-qt /usr/bin/straks-qt
-
 # [2] pre-compiled binaries
-RUN cd ${HOME} && wget https://github.com/straks/straks/releases/download/${STRAKS_VER}/straks-${STRAKS_VER}-linux-amd64.tar.gz && tar zxvf straks-${STRAKS_VER}-linux-amd64.tar.gz
-
-RUN cd ${HOME}/straks-${STRAKS_VER}-linux-amd64 && cp straksd /usr/bin/straksd && cp straks-cli /usr/bin/straks-cli && cp straks-tx /usr/bin/straks-tx && cp straks-qt /usr/bin/straks-qt
+RUN cd ${HOME} && wget https://github.com/bulwark-crypto/Bulwark/releases/download/${BULWARK_VER}/bulwark-${BULWARK_VER}-x86_64-ubuntu${UBUNTU_VER}-gnu.gz -O bulwark.tar.gz && tar zxvf bulwark.tar.gz --strip-components 2
+RUN cd ${HOME} && cp bulwark* /usr/bin/ && rm bulwark.tar.gz
 
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.7
@@ -73,13 +54,13 @@ RUN set -x \
 
 ADD ./bin /usr/local/bin
 
-VOLUME ["/straks"]
+VOLUME ["/bulwark"]
 
-EXPOSE 7575 7574
+EXPOSE 52544 52543
 
-WORKDIR /straks
+WORKDIR /bulwark
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-CMD ["straks_oneshot"]
+CMD ["bulwark_oneshot"]

@@ -1,15 +1,15 @@
-# Copy to /etc/init/docker-straks-node.conf
-description "Docker container for STRAKS p2p node"
+# Copy to /etc/init/docker-bulwark-docker.conf
+description "Docker container for BULWARK p2p node"
 start on filesystem and started docker
 stop on runlevel [!2345]
 respawn
 pre-start script
   # Clean-up if left behind
-  docker rm -f straks-node || true
+  docker rm -f bulwark-docker || true
   
   # Attempt to always update and fail silently if the network isn't ready
-  docker pull squbs/straks-node:latest || true
+  # docker pull 8eph/bulwark-docker:latest || true
 end script
 script
-  exec docker run --rm -v straks-data:/straks --name=straks-node --rm -p 7575:7575 -p 127.0.0.1:7574:7574 squbs/straks-node
+  exec docker run --rm -v bulwark-data:/bulwark --name=bulwark-docker --rm -p 52543:52543 -p 127.0.0.1:52544:52544 8eph/bulwark-docker
 end script

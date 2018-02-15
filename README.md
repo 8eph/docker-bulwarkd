@@ -1,10 +1,10 @@
-﻿STRAKS Node For Docker
+﻿BULWARK Node For Docker
 ======================
 
-[![Docker Stars](https://img.shields.io/docker/stars/squbs/straks-node.svg)](https://hub.docker.com/r/squbs/straks-node/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/squbs/straks-node.svg)](https://hub.docker.com/r/squbs/straks-node/)
+[![Docker Stars](https://img.shields.io/docker/stars/8eph/bulwark-docker.svg)](https://hub.docker.com/r/8eph/bulwark-docker/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/8eph/bulwark-docker.svg)](https://hub.docker.com/r/8eph/bulwark-docker/)
 
-Docker image that runs a STRAKS node in a container for easy deployment.
+Docker image that runs a BULWARK node in a container for easy deployment.
 
 
 Requirements
@@ -22,11 +22,7 @@ Really Fast Quick Start
 
 One liner for Ubuntu Xenial/Zesty machines with JSON-RPC enabled on localhost and adds systemd service:
 
-    curl https://raw.githubusercontent.com/straks/straks-node/master/bootstrap-host.sh | sh
-
-For Raspberry Pi 2/3:
-
-    curl https://raw.githubusercontent.com/straks/straks-node/master/bootstrap-host-armhf.sh |  sh
+    curl https://raw.githubusercontent.com/bulwark/bulwark-docker/master/bootstrap-host.sh | sh
 
 You will most likely need to run the above twice if your user is not part of the Docker group or it is a new installation of Docker. After running the above the first time, and it fails citing permission issues, log out and then log back in and then ensure that user is a member of the Docker group (run `id`).  User will also need `sudo` permissions.
 
@@ -34,36 +30,33 @@ Note: use `-H 'Cache-Control: no-cache'` with the curl command to return non-cac
 
 Finally, in order to start the node manually, run:
 
-    sudo systemctl start docker-straks-node
+    sudo systemctl start docker-bulwark-docker
     
 
 Quick Start
 -----------
 
-1. Create a `straks-data` volume to persist the STRAKS blockchain data, should exit immediately.  The `straks-data` container will store the blockchain when the node container is recreated (software upgrade, reboot, etc):
+1. Create a `bulwark-data` volume to persist the BULWARK blockchain data, should exit immediately.  The `bulwark-data` container will store the blockchain when the node container is recreated (software upgrade, reboot, etc):
 
-        docker volume create --name=straks-data
-        docker run -v straks-data:/straks --name=straks-node -d \
-            -p 7575:7575 \
-            -p 7574:7574 \
-            squbs/straks-node
+        docker volume create --name=bulwark-data
+        docker run -v bulwark-data:/bulwark --name=bulwark-docker -d p 52544:52544 -p 52543:52543 8eph/bulwark-docker
 
-2. Verify that the container is running and `straks-node` daemon is downloading the blockchain:
+2. Verify that the container is running and `bulwark-docker` daemon is downloading the blockchain:
 
         $ docker ps
         CONTAINER ID        IMAGE                         COMMAND             CREATED             STATUS              PORTS                                              NAMES
-        ee825ac17747     squbs/straks-node:latest     "straks_oneshot"       2 seconds ago       Up 1 seconds        127.0.0.1:7575->7575/tcp, 0.0.0.0:7574->7574/tcp   straks-node
+        ee825ac17747     8eph/bulwark-docker:latest     "bulwark_oneshot"       2 seconds ago       Up 1 seconds        127.0.0.1:52544->52544/tcp, 0.0.0.0:52543->52543/tcp   bulwark-docker
 
 3. You can then access the daemon's output thanks to the [docker logs command]( https://docs.docker.com/reference/commandline/cli/#logs)
 
-        $ docker logs -f straks-node
+        $ docker logs -f bulwark-docker
 
 4. Install optional init scripts for upstart and systemd located in the `init` directory. Alternatively you can run step 1 with the following additional arguments `-dit --restart unless-stopped ` to have the container restart on failure on system restart.
 
 5. If not using upstart and systemd, you can use watchtower to keep your docker node up to date. 
 
 ```
-docker run -dit --restart unless-stopped   -d  --name watchtower   -v /var/run/docker.sock:/var/run/docker.sock   v2tec/watchtower straks-node
+docker run -dit --restart unless-stopped   -d  --name watchtower   -v /var/run/docker.sock:/var/run/docker.sock   v2tec/watchtower bulwark-docker
 ```
 
 
@@ -74,20 +67,20 @@ General Commands
 
 1. Open a bash shell within the running container and issue commands to the daemon:
 
-        $ docker exec -it straks-node bash
-        $ straks-cli getinfo
+        $ docker exec -it bulwark-docker bash
+        $ bulwark-cli getinfo
 
-2. Copy file (e.g. straks.conf) in and out of the container: 
+2. Copy file (e.g. bulwark.conf) in and out of the container: 
         
         # Copy to your local dir:
-        $ docker cp straks-node:/straks/.straks/straks.conf .
+        $ docker cp bulwark-docker:/bulwark/.bulwark/bulwark.conf .
         
         # Copy back to the container: 
-        $ docker straks.conf straks-node:/straks/.straks/straks.conf 
+        $ docker bulwark.conf bulwark-docker:/bulwark/.bulwark/bulwark.conf 
 
         # Stop/start the container
-        $ docker stop straks-node
-        $ docker start straks-node
+        $ docker stop bulwark-docker
+        $ docker start bulwark-docker
 
 3. Backup wallet (two approaches): 
 
@@ -95,25 +88,25 @@ General Commands
         # This will create a human readable file dump (depending on encryption status etc):
 
         (a) Dump wallet:
-            $ docker exec -it  straks-node straks-cli dumpwallet backup_wallet.dat
+            $ docker exec -it  bulwark-docker bulwark-cli dumpwallet backup_wallet.dat
         
         (b) Copy to local dir: 
-            $ docker cp straks-node:/straks/backup_wallet.dat .
+            $ docker cp bulwark-docker:/bulwark/backup_wallet.dat .
 
 
         # Approach 2
         # This will create a binary file:
 
         (a) Copy dat file to local dir: 
-            $ docker cp straks-node:/straks/.straks/wallet.dat backup_wallet.dat
+            $ docker cp bulwark-docker:/bulwark/.bulwark/wallet.dat backup_wallet.dat
 
-4. Check `straks-node` log file using system `tail -f` command:
+4. Check `bulwark-docker` log file using system `tail -f` command:
 
         $ docker ps
 
-        # Note the 'COINTAINER ID' for straks-node
+        # Note the 'COINTAINER ID' for bulwark-docker
         CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                                       NAMES
-        ee825ac17747        squbs/straks-node:1.14.5   "docker-entrypoint..."   21 seconds ago      Up 21 seconds       7575/tcp, 0.0.0.0:7574->7574/tcp   straks-node`
+        ee825ac17747        8eph/bulwark-docker:1.14.5   "docker-entrypoint..."   21 seconds ago      Up 21 seconds       52544/tcp, 0.0.0.0:52543->52543/tcp   bulwark-docker`
 
         # Run inspect command on container id
         $ docker inspect --format='{{.LogPath}}' ee825ac17747
@@ -123,9 +116,9 @@ General Commands
         
         $ tail -f ee825ac17747f2abaf627600860697e1213249ab83bb0cf136684dd4a4b7f55d-json.log
 
-5. Modify `straks.conf` and/or `wallet.dat` files without `docker cp`:
+5. Modify `bulwark.conf` and/or `wallet.dat` files without `docker cp`:
 
-        $ docker volume inspect straks-data
+        $ docker volume inspect bulwark-data
        
         # output: 
         [
@@ -133,8 +126,8 @@ General Commands
                 "CreatedAt": "2017-11-26T16:07:53Z",
                 "Driver": "local",
                 "Labels": {},
-                "Mountpoint": "/var/lib/docker/volumes/straks-data/_data",
-                "Name": "straks-data",
+                "Mountpoint": "/var/lib/docker/volumes/bulwark-data/_data",
+                "Name": "bulwark-data",
                 "Options": {},
                 "Scope": "local"
             }
@@ -142,22 +135,22 @@ General Commands
 
         # The 'Mountpoint' directory is the system location of all your user files that reside within the container.
         # 'cd' into this directory - use sudo if you have permission issues - and then copy your conf 
-        # and wallet files over existing files that may exist in the `.straks/` folder
-        # WARNING: make sure to stop the `straks-node` process before changing config or wallet files
+        # and wallet files over existing files that may exist in the `.bulwark/` folder
+        # WARNING: make sure to stop the `bulwark-docker` process before changing config or wallet files
 
-6. Simple json-rpc call to straks-node from another machine (or host):
+6. Simple json-rpc call to bulwark-docker from another machine (or host):
 
-        # username and password can be found in the `straks.conf` file
+        # username and password can be found in the `bulwark.conf` file
         # daemon-host-ip can be localhost/0.0.0.0/127.0.0.1 or a lan/wan ip address
-        $ curl -s --user '<username>:<password>' --data-binary '{"jsonrpc": "2.0","method": "getinfo", "params": [] }' -H 'content-type: application/json-rpc;' http://<daemon-host-ip>:7574
+        $ curl -s --user '<username>:<password>' --data-binary '{"jsonrpc": "2.0","method": "getinfo", "params": [] }' -H 'content-type: application/json-rpc;' http://<daemon-host-ip>:52543
 
    If you have `jq` installed, you can do some pretty json printing:
         
-        $ curl -s --user '<username>:<password>' --data-binary '{"jsonrpc": "2.0","method": "getinfo", "params": [] }' -H 'content-type: application/json-rpc;' http://127.0.0.1:7574 | jq '.'
+        $ curl -s --user '<username>:<password>' --data-binary '{"jsonrpc": "2.0","method": "getinfo", "params": [] }' -H 'content-type: application/json-rpc;' http://127.0.0.1:52543 | jq '.'
 
    Or `python -m json.tool`:
 
-        $ curl -s --user '<username>:<password>' --data-binary '{"jsonrpc": "2.0","method": "getinfo", "params": [] }' -H 'content-type: application/json-rpc;' http://127.0.0.1:7574 | python -m json.tool
+        $ curl -s --user '<username>:<password>' --data-binary '{"jsonrpc": "2.0","method": "getinfo", "params": [] }' -H 'content-type: application/json-rpc;' http://127.0.0.1:52543 | python -m json.tool
 
 
 Documentation

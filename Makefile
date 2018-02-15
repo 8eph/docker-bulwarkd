@@ -1,7 +1,7 @@
-APPNAME=straks-node
+APPNAME=bulwark-docker
 #VERSION=$(shell git describe --tags)
-VERSION=1.14.7.2
-NAMESPACE=squbs
+VERSION=1.2.1.0
+NAMESPACE=8eph
 
 build:  
-	docker build -t $(NAMESPACE)/$(APPNAME) -t $(NAMESPACE)/$(APPNAME):$(VERSION) .
+	docker build -t $(NAMESPACE)/$(APPNAME) -t $(NAMESPACE)/$(APPNAME):release .

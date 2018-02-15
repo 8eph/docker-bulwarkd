@@ -7,10 +7,10 @@ The image can be built from source by running:
 
 A recommended security practice is to add an additional unprivileged user to run the daemon as on the host. For example, as a privileged user, run this on the host:
 
-        useradd straks
+        useradd bulwark
 
 To build an image which uses this unprivileged user's id and group id, run:
 
-        docker build --build-arg USER_ID=$( id -u straks ) --build-arg GROUP_ID=$( id -g straks ) .
+        docker build --build-arg USER_ID=$( id -u bulwark ) --build-arg GROUP_ID=$( id -g bulwark ) .
 
-Now, when the container is run with the default options, the straks process will only have the privileges of the straks user on the host machine. This is especially important for a process such as straks which runs as a network service exposed to the internet.
+Now, when the container is run with the default options, the bulwark process will only have the privileges of the bulwark user on the host machine. This is especially important for a process such as bulwark which runs as a network service exposed to the internet.

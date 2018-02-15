@@ -1,7 +1,0 @@
-APPNAME=straks-node
-#VERSION=$(shell git describe --tags)
-VERSION=1.14.7.2-armhf
-NAMESPACE=squbs
-
-build:  
-	docker build -f Dockerfile.armhf -t $(NAMESPACE)/$(APPNAME) -t $(NAMESPACE)/$(APPNAME):$(VERSION) .

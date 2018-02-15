@@ -7,39 +7,31 @@ set -ex
 echo "Working directory set to:"
 echo $HOME
 
-if [ ! -d "$HOME/.straks" ]; then
-  mkdir -p $HOME/.straks
+if [ ! -d "$HOME/.bulwark" ]; then
+  mkdir -p $HOME/.bulwark
 fi
 
-if [ ! -e "$HOME/.straks/straks.conf" ]; then
-    echo "Creating straks.conf"
+if [ ! -e "$HOME/.bulwark/bulwark.conf" ]; then
+    echo "Creating bulwark.conf"
 
     # Seed a random password for JSON RPC server
-    cat <<EOF > $HOME/.straks/straks.conf
+    cat <<EOF > $HOME/.bulwark/bulwark.conf
 #################
 # General Config
 #################
 printtoconsole=${PRINTTOCONSOLE:-1}
-rpcuser=${RPCUSER:-ustraks}
+rpcuser=${RPCUSER:-ubulwark}
 rpcpassword=${RPCPASSWORD:-`dd if=/dev/urandom bs=33 count=1 2>/dev/null | base64`}
-rpcport=7574
+rpcport=52544
 rpcallowip=127.0.0.1
 server=1
 daemon=0
 listen=1
 maxconnections=100
-
-####################
-# Masternode Config
-####################
-#masternode=1
-#masternodeprivkey=
-#externalip=:7575
-#promode=1
 EOF
 
 fi
 
-cat $HOME/.straks/straks.conf
+cat $HOME/.bulwark/bulwark.conf
 
 echo "Initialization completed successfully"
